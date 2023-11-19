@@ -1,49 +1,26 @@
-class ItemValue:
-    """Item Value DataClass"""
+def fractional_knapsack(value, weight, capacity):
+    ratios = []
+    total_value = 0.0 
 
-    def __init__(self, wt_, val_, ind_):
-        self.wt = wt_
-        self.val = val_
-        self.ind = ind_
-        self.cost = val_ // wt_
+    for i in range(len(value)):
+        ratios.append((value[i] / weight[i], value[i], weight[i]))
 
-    def __lt__(self, other):
-        return self.cost < other.cost
+    ratios.sort(reverse=True)
 
-
-def fractionalKnapSack(wt, val, capacity):
-    """Function to get maximum value"""
-    iVal = [ItemValue(wt[i], val[i], i) for i in range(len(wt))]
-
-    # sorting items by cost
-    iVal.sort(key=lambda x: x.cost, reverse=True)
-
-    totalValue = 0
-    for i in iVal:
-        curWt = i.wt
-        curVal = i.val
-        if capacity - curWt >= 0:
-            capacity -= curWt
-            totalValue += curVal
+    for i in range(len(value)):
+        if capacity >= weight[i]:
+            total_value += value[i]
+            capacity -= weight[i]
         else:
-            fraction = capacity / curWt
-            totalValue += curVal * fraction
-            capacity = int(capacity - (curWt * fraction))
-            break
-    return totalValue
+            total_value += (capacity * value[i] / weight[i])
+            capacity = 0
 
+    return total_value
 
-if __name__ == "__main__":
-    wt = [10, 40, 20, 30]
-    val = [60, 40, 100, 120]
-    capacity = 50
+values = [60, 100, 120]
+weights = [1, 2, 3]
+knapsack_capacity = 5
 
-    # Function call
-    maxValue = fractionalKnapSack(wt, val, capacity)
-    print("Maximum value in Knapsack =", maxValue)
+max_value = fractional_knapsack(values, weights, knapsack_capacity)
 
-"""
-OUTPUT:
-
-Maximum value in Knapsack = 240.0
-"""
+print("Maximum value:", max_value)
