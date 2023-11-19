@@ -1,4 +1,4 @@
-n = 4
+n = 6
 board = [[ 0 for i in range(n)] for i in range(n)]
 
 def safe(r, c):
@@ -15,7 +15,7 @@ def safe(r, c):
 
 def solve(r, c):
     if r == n:
-        return [row[:] for row in board]  # Return a copy of the board
+        return board  
 
     for c in range(n):
         if safe(r, c):
